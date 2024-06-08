@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/Bookmark-icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Login System - sign up</title>
+</head>
+<body class="bg-secondary">
+    <main class="container text-center bg-secondary shadow-lg mt-5 p-5">
+        <h1 class="text-info">Smart Login System</h1>
+
+        <input type="text" class="form-control my-3 border-1 border-white bg-secondary text-white" id="userName" placeholder="Enter Your Name">
+        <input type="email" class="form-control my-3 border-1 border-white bg-secondary text-white" id="signUpMail" placeholder="Enter Your Email">
+        <input type="password" class="form-control my-3 border-1 border-white bg-secondary text-white" id="signUpPassword" placeholder="Enter Password">
+
+        <button class="btn btn-outline-info form-control my-3" onclick="addUser()"> Sign Up </button>
+        <p class="text-warning d-none" id="requiredInputsUp">All inputs required</p>
+        <p class="text-warning d-none" id="usedMailAlert">Mail Already Exists !!</p>
+        <span class="text-white">You have an account? <a class="text-white text text-decoration-none fw-bold" href="./index.html">Sign In</a></span>
+    </main>
+        
+    <script src="./js/index.js"></script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
