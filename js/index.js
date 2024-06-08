@@ -22,14 +22,9 @@ if(localStorage.getItem('uList')){
 
 var path = location.href;
 var basicUrl = path.split('/')
-if(path.at(-1) === "/"){
-  basicUrl.pop()
-  basicUrl.pop()
-}
-else{
-  basicUrl.pop()
-}
+basicUrl.pop();
 var fPath = basicUrl.join('/');
+
 
 
 
