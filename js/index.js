@@ -9,7 +9,11 @@ var signInPassword = document.getElementById('signInPassword');
 var requiredInputsIn = document.getElementById('requiredInputsIn')
 var passwordAlert = document.getElementById('passwordAlert');
 var registerAlert = document.getElementById('registerAlert');
+var wrongM =document.getElementById('mailWrong');
+var wrongP =document.getElementById('passWrong');
 
+var mailRegex = /^.{1,}?(@).{1,}\.(.){1,}$/ ;
+var passRegex = /^.{8,}/ ;
 
 var welcomeMsg = document.getElementById('welcome');
 
@@ -29,25 +33,27 @@ var fPath = basicUrl.join('/');
 
 
 function addUser() {
-  user = {
-    name: userName.value,
-    email: signUpMail.value,
-    passWord: signUpPassword.value
-  }
-  if(user.name === "" || user.email === "" || user.passWord === ""){
-    requiredInputsUp.classList.remove("d-none")
-  }
-  else if(searchUser(user.email)){
-    usedMailAlert.classList.remove('d-none')
-    requiredInputsUp.classList.add("d-none")
-  }
-  else{
-    usedMailAlert.classList.add('d-none')
-    requiredInputsUp.classList.add("d-none")
-    usersList.push(user);
-    localStorage.setItem('uList', JSON.stringify(usersList))
-    clearInputs(3);
-    location.replace(fPath+'/index.html')
+  if(validation(signUpMail,signUpPassword)){
+    user = {
+      name: userName.value,
+      email: signUpMail.value,
+      passWord: signUpPassword.value
+    }
+    if(user.name === "" || user.email === "" || user.passWord === ""){
+      requiredInputsUp.classList.remove("d-none")
+    }
+    else if(searchUser(user.email)){
+      usedMailAlert.classList.remove('d-none')
+      requiredInputsUp.classList.add("d-none")
+    }
+    else{
+      usedMailAlert.classList.add('d-none')
+      requiredInputsUp.classList.add("d-none")
+      usersList.push(user);
+      localStorage.setItem('uList', JSON.stringify(usersList))
+      clearInputs(3);
+      location.replace(fPath+'/index.html')
+    }
   }
 }
 
@@ -65,12 +71,16 @@ function clearInputs(x) {
   switch (x) {
     case 2:
       signInMail.value = "";
+      signInMail.classList.remove('is-valid')
       signInPassword.value = "";
+      signInPassword.classList.remove('is-valid')
       break;
     case 3:
       userName.value = "";
       signUpMail.value = "";
+      signUpMail.classList.remove('is-valid')
       signUpPassword.value = "";
+      signUpPassword.classList.remove('is-valid')
       break;
   }
 }
@@ -82,25 +92,43 @@ function signIn() {
     registerAlert.classList.add("d-none")
   }
   else{
-    requiredInputsIn.classList.add("d-none")
-    var signedUser = searchUser(signInMail.value);
-    if(signedUser){
-      if(signInPassword.value === signedUser.passWord){
-        console.log("pass");
-        passwordAlert.classList.add('d-none')
-        localStorage.setItem('loggedUser', JSON.stringify(signedUser.name))
-        location.replace(fPath+'/welcome.html')
-        console.log(loggedIn);
-        clearInputs(2);
+    if(validation(signInMail,signInPassword)){
+      wrongM.classList.add('d-none')
+      wrongP.classList.add('d-none')
+      requiredInputsIn.classList.add("d-none")
+      var signedUser = searchUser(signInMail.value);
+      if(signedUser){
+        if(signInPassword.value === signedUser.passWord){
+          console.log("pass");
+          passwordAlert.classList.add('d-none')
+          localStorage.setItem('loggedUser', JSON.stringify(signedUser.name))
+          location.replace(fPath+'/welcome.html')
+          console.log(loggedIn);
+          clearInputs(2);
+        }
+        else{
+          passwordAlert.classList.remove('d-none')
+        }
       }
       else{
-        passwordAlert.classList.remove('d-none')
+        requiredInputsIn.classList.add('d-none')
+        passwordAlert.classList.add('d-none')
+        registerAlert.classList.remove('d-none')
       }
     }
     else{
-      requiredInputsIn.classList.add('d-none')
-      passwordAlert.classList.add('d-none')
-      registerAlert.classList.remove('d-none')
+      if(validate('signInMail',mailRegex)){
+        wrongM.classList.add('d-none')
+      }
+      else{
+        wrongM.classList.remove('d-none')
+      }
+      if(validate('signInPassword',mailRegex)){
+        wrongP.classList.add('d-none')
+      }
+      else{
+        wrongP.classList.remove('d-none')
+      }
     }
   }
 }
@@ -116,3 +144,21 @@ function logOut() {
   localStorage.removeItem('loggedUser')
   location.replace(fPath+'/index.html')
 }
+
+function validate(id,regex){
+  var testElement = document.getElementById(id);
+  if (regex.test(testElement.value)) {
+    testElement.classList.add("is-valid");
+    testElement.classList.remove("is-invalid");
+    return true
+  } 
+  else {
+    testElement.classList.remove("is-valid");
+    testElement.classList.add("is-invalid");
+    return false
+  }
+}
+function validation(mail,pass){
+  return (mailRegex.test(mail.value) && passRegex.test(pass.value))
+}
+

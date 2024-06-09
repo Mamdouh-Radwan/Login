@@ -13,8 +13,10 @@
     <main class="container text-center bg-secondary shadow-lg mt-5 p-5">
         <h1 class="text-info">Smart Login System</h1>
 
-        <input type="email" class="form-control my-3 border-1 border-white bg-secondary text-white" id="signInMail" placeholder="Enter Your Email">
-        <input type="password" class="form-control my-3 border-1 border-white bg-secondary text-white" id="signInPassword" placeholder="Enter Your Password">
+        <input type="email" class="form-control my-3 border-1 border-white bg-secondary text-white" id="signInMail" oninput="validate('signInMail',mailRegex)" placeholder="Enter Your Email">
+        <p class="text-warning text-start mb-4 d-none" id="mailWrong"> Mail must be: example@domain.com</p>
+        <input type="password" class="form-control my-3 border-1 border-white bg-secondary text-white" id="signInPassword" oninput="validate('signInPassword',passRegex)" placeholder="Enter Your Password">
+        <p class="text-warning text-start mb-4 d-none" id="passWrong">  Must be at least 8 charecters</p>
 
         <button class="btn btn-outline-info form-control my-3" onclick="signIn()"> login</button>
         <p class="text-warning d-none" id="requiredInputsIn">All inputs required</p>
