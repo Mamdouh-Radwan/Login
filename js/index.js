@@ -3,6 +3,7 @@ var signUpMail = document.getElementById('signUpMail');
 var signUpPassword = document.getElementById('signUpPassword');
 var usedMailAlert = document.getElementById('usedMailAlert');
 var requiredInputsUp = document.getElementById('requiredInputsUp');
+var success = document.getElementById('success');
 
 var signInMail = document.getElementById('signInMail');
 var signInPassword = document.getElementById('signInPassword');
@@ -52,11 +53,14 @@ function addUser() {
       usersList.push(user);
       localStorage.setItem('uList', JSON.stringify(usersList))
       clearInputs(3);
-      location.replace(fPath+'/index.html')
-    }
+      success.classList.remove('d-none')
+      setTimeout(function() {
+        success.classList.add('d-none')
+        location.replace(fPath+'/index.html') 
+      }, 2000);
   }
 }
-
+ }
 function searchUser(userMail) {
   var founded = 0;
   for (i =0; i < usersList.length; i++) {
