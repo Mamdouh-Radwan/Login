@@ -34,33 +34,35 @@ var fPath = basicUrl.join('/');
 
 
 function addUser() {
-  if(validation(signUpMail,signUpPassword)){
-    user = {
-      name: userName.value,
-      email: signUpMail.value,
-      passWord: signUpPassword.value
+  if(userName.value === "" || signUpMail.value === "" || signUpPassword.value === ""){
+    requiredInputsUp.classList.remove("d-none")
+  }
+  else{
+    if(validation(signUpMail,signUpPassword)){
+      user = {
+        name: userName.value,
+        email: signUpMail.value,
+        passWord: signUpPassword.value
+      }
+      if(searchUser(user.email)){
+        usedMailAlert.classList.remove('d-none')
+        requiredInputsUp.classList.add("d-none")
+      }
+      else{
+        usedMailAlert.classList.add('d-none')
+        requiredInputsUp.classList.add("d-none")
+        usersList.push(user);
+        localStorage.setItem('uList', JSON.stringify(usersList))
+        clearInputs(3);
+        success.classList.remove('d-none')
+        setTimeout(function() {
+          success.classList.add('d-none')
+          location.replace(fPath+'/index.html') 
+        }, 1000);
+      }
     }
-    if(user.name === "" || user.email === "" || user.passWord === ""){
-      requiredInputsUp.classList.remove("d-none")
-    }
-    else if(searchUser(user.email)){
-      usedMailAlert.classList.remove('d-none')
-      requiredInputsUp.classList.add("d-none")
-    }
-    else{
-      usedMailAlert.classList.add('d-none')
-      requiredInputsUp.classList.add("d-none")
-      usersList.push(user);
-      localStorage.setItem('uList', JSON.stringify(usersList))
-      clearInputs(3);
-      success.classList.remove('d-none')
-      setTimeout(function() {
-        success.classList.add('d-none')
-        location.replace(fPath+'/index.html') 
-      }, 2000);
   }
 }
- }
 function searchUser(userMail) {
   var founded = 0;
   for (i =0; i < usersList.length; i++) {
